@@ -1,0 +1,111 @@
+- title = title
+#container
+ .content
+  h1 #{user.name}
+  - if (user.tags)
+    p is 
+        - each tag in user.tags
+         #{tag}
+
+  .user_info.data(style='display:block')
+        p <strong>Nombre</strong>: #{user.name}
+        p <strong>Email</strong>: #{user.email}
+        - if (user.experience)
+            h3 experience
+            ul#experience
+             - each exp in user.experience
+              li
+                span.years #{exp.years} years as 
+                span.position #{exp.position}
+
+
+
+
+
+
+        
+  .user_info.form(style='display:none')
+
+      form(method='post', class='new_profile')
+
+
+         h3 personal info
+
+         label Nombre:
+         input(
+          type='text'
+          name='name'
+          value='#{user.name}'
+          placeholder='full name'
+          )
+         br
+         label Email:
+         input(
+          type='text'
+          name='email'
+          value='#{user.email}'
+          placeholder='something@like.that'
+          )
+         br
+         label Is a:
+         input.tags(
+          type='text'
+          name='tags'
+          value='#{user.tags}'
+          )
+
+
+         h3 experience
+         #inlined_fields_container
+             .inlined_fields.to_clone(style='display:none')
+                             input(type='text',name='position',placeholder='position name')
+                             input(type='text',name='years',placeholder='years on it')
+                             a(href='javascript:void();', class='remove') X
+             - if (user.experience)
+                 .inlined_fields
+                        span function
+                        span years
+                     - each exp in user.experience
+                         .inlined_fields
+                             input(type='text',name='position',value='#{exp.position}',placeholder='position name')
+                             input(type='text',name='years',value='#{exp.years}',placeholder='years on it')
+                             a(href='javascript:void();', class='remove') X
+             .actions
+                a(href='javascript:void();', class='add_more') add other
+
+        
+         br
+         input(
+            type='submit'
+            value='Save'
+            )
+         a.edit_user(href='javascript:void(0);') cancel
+
+   .actions
+        a.edit_user.action(href='javascript:void(0);') edit
+
+   .delete
+        form(method='post', action='/users/#{user.id}/delete')
+          input(type='submit', value='delete', class='delete', onclick='javascript:return confirm("Are you sure?");')
+
+ .sidebar
+    p
+        a(href='/users') See all users
+    p
+        a(href='/users/new') Add new user
+    - if (user.tags)
+        p or filter by tag:
+            - each tag in user.tags
+                p
+                    a(href='/users/tag/#{tag}') #{tag}
+    
+
+
+
+script(type='text/javascript')
+        var uid = "#{user.id}";
+        var track_type = 'profile';
+
+        if(location.search=='?new=1'){
+            socket.emit('new user', {name:'#{user.name}', uid:'#{user.id}'});
+        }

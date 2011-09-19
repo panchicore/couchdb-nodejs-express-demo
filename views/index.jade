@@ -1,0 +1,23 @@
+- title = title
+#container
+ .content
+      h1= title
+      p Welcome to couchdb jobboard.
+      :markdown
+           [see all profiles](/users/)
+
+      h3 who...
+      -if (tags)
+        -for tag in tags
+            #{tag.key} (#{tag.value})
+      h3 what...
+      -if (experiences)
+        -for ex in experiences
+            #{ex.key} (#{ex.value})
+
+      h3 popular...
+      -if (popular)
+        -for p in popular
+            #{p.key} (#{p.value})
+
+ .sidebar Welcome

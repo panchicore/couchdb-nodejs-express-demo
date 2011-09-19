@@ -1,0 +1,28 @@
+- title = title
+#container
+ .content
+  h1 Add new user
+
+  .user_info.form
+
+      form(method='post', class='new_profile')
+         label Nombre:
+         input(type='text',name='name',placeholder='full name', class='required')
+         br
+         label Email:
+         input(type='text',name='email',placeholder='something@like.that', class='required email')
+         br
+         label Is a:
+         input.tags(type='text',name='tags',placeholder='man, biker, smart, student')
+         br
+         input(type='submit',value='Save new user')
+
+ .sidebar
+    p
+        a(href='/users') See all users
+    
+
+script
+    $(document).ready(function(){
+        $("form.new_profile").validate();
+    });

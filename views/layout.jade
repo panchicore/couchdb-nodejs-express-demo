@@ -1,0 +1,38 @@
+!!! 5
+html
+  head
+    title Couchnode - #{title}
+    link(rel='stylesheet', href='/stylesheets/style.css')
+        
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js', type='application/javascript')
+    script(src='/javascripts/jquery.validate.js', type='application/javascript')
+    script(src='/javascripts/actions.js', type='application/javascript')
+    script(src='/socket.io/socket.io.js')
+
+    script
+        var socket = io.connect('http://localhost');
+        socket.on('new user', function (data) {
+            console.log(data);
+            $("#messages ul").append(' <li>say hello to <a href="/users/'+data.uid+'">'+data.name+'</a> is a new member!</li>');
+            $("#messages").fadeIn();
+        });
+
+        socket.emit('page view', {href: location.href});
+        socket.on('page view count', function (data) {
+            $("span#view_count").fadeIn();
+            $("span#view_count span").text(data.view_count);
+        });
+
+
+  body
+    #header
+        .title hello world couch - #{title}
+        .menu
+         a(href='/') [home]
+         <span id="view_count" style="display:none"> this page was viewed <span></span> times</span>
+         
+    #messages
+        ul
+
+    != body
+script(src='/javascripts/track.js')

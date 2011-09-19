@@ -1,0 +1,15 @@
+- title = title
+#container
+ .content
+  h1 #{title}
+  #users
+    - each user in users
+        != partial('user', {collection: user})
+
+ .sidebar
+  p
+   a(href='/users/new') add new users
+  -if (typeof action !=='undefined')
+    -if(action=='users_by_tag')
+        p
+            a(href='/users') all users
