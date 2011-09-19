@@ -1,4 +1,7 @@
-nodejs with expressjs connecting to a couchdb.
+nodejs with expressjs connecting to a couchdb using cradle.
 profile database application.
+
+dependencies:
+cradle  express  jade  less  markdown  socket.io
 
 by luis@pallares.co
